@@ -1,7 +1,6 @@
 package org.fmat.controller;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -23,28 +22,21 @@ public class Controller {
 
     public void abrirVentana (String titulo, String fxml) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-        Parent root = loader.load();
-
         Stage stage = new Stage();
+        Scene scene = new Scene(loader.load(),900,600);
         stage.setTitle(titulo);
-        stage.setScene(new Scene(root));
-
-
+        stage.setScene(scene);
+        stage.setMinWidth(800);
+        stage.setMinHeight(500);
         stage.centerOnScreen();
         stage.show();
     }
 
     public void cerrarYAbrirNuevaVentana(String titulo, String fxml, Button botonCerrar){
+        Stage stage = (Stage) botonCerrar.getScene().getWindow();
+        stage.close();
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-            Parent root = loader.load();
-            Stage stage = (Stage) botonCerrar.getScene().getWindow(); //mismo stage
-            stage.setTitle(titulo);
-            stage.setScene(new Scene(root));
-
-
-            stage.centerOnScreen();
-            stage.show();
+            abrirVentana(titulo, fxml);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
