@@ -35,23 +35,23 @@ public class Controller {
     }
 
     public void cerrarYAbrirNuevaVentana(String titulo, String fxml, Button botonCerrar){
-        Stage stage = (Stage) botonCerrar.getScene().getWindow();
-        stage.close();
         try {
-            abrirVentana(titulo, fxml);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            Parent root = loader.load();
+            Stage stage = (Stage) botonCerrar.getScene().getWindow(); //mismo stage
+            stage.setTitle(titulo);
+            stage.setScene(new Scene(root));
+
+
+            stage.centerOnScreen();
+            stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void cerrarVolverAlMenu(String titulo, String fxml, Button botonCerrar){
-        Stage stage = (Stage) botonCerrar.getScene().getWindow();
-        stage.close();
-        try {
-            abrirVentana(titulo, fxml);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        cerrarYAbrirNuevaVentana(titulo, fxml, botonCerrar);
     }
 
 
