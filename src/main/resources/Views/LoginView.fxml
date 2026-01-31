@@ -6,13 +6,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.PasswordField?>
 
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fmat.controller.LoginController" >
    <children>
       <AnchorPane prefHeight="605.0" prefWidth="900.0">
          <children>
-            <TextField layoutX="365.0" layoutY="235.0" prefHeight="33.0" prefWidth="241.0" />
+            <TextField layoutX="365.0" layoutY="235.0" prefHeight="33.0" prefWidth="241.0" fx:id="campoUsuario"/>
             <Label layoutX="200.0" layoutY="75.0" prefHeight="74.0" prefWidth="534.0" text="SISTEMA DE CALIFICACIONES">
                <font>
                   <Font size="36.0" />
@@ -28,8 +29,8 @@
                   <Font size="23.0" />
                </font>
             </Label>
-            <Button layoutX="398.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" text="Iniciar Sesión" />
-            <TextField layoutX="365.0" layoutY="302.0" prefHeight="33.0" prefWidth="241.0" />
+            <Button layoutX="398.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" text="Iniciar Sesión" onAction="#login" />
+            <PasswordField layoutX="365.0" layoutY="302.0" prefHeight="33.0" prefWidth="241.0" fx:id="campoPasswd" />
             <Button layoutX="398.0" layoutY="422.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" text="Agregar Usuario" />
          </children>
       </AnchorPane>
