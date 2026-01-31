@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="462.0" prefWidth="634.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fmat.controller.MenuController">
+    <children>
+        <AnchorPane prefHeight="462.0" prefWidth="634.0">
+            <children>
+                <Label layoutX="71.0" layoutY="137.0" prefHeight="74.0" prefWidth="494.0" text="SISTEMA DE CALIFICACIONES">
+                    <font>
+                        <Font size="36.0" />
+                    </font>
+                </Label>
+                <Button fx:id="btnImportarDatos" layoutX="249.0" layoutY="231.0" mnemonicParsing="false" onAction="#importarDatos" prefHeight="42.0" prefWidth="137.0" text="Importar Archivo" />
+                <Button fx:id="btnVerDatos" layoutX="249.0" layoutY="298.0" mnemonicParsing="false" onAction="#visualizarDatos" prefHeight="42.0" prefWidth="137.0" text="Ver Datos" />
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
