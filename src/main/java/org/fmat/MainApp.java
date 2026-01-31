@@ -19,19 +19,4 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    /* configuracion de alertas.
-    private void configureAlert(Alert alert, String title, String header, String content) {
-        alert.setTitle(title);
-        alert.setHeaderText(header);
-        alert.setContentText(content);
-        //alert.getButtonTypes().setAll(buttonTypeAccept, buttonTypeCancel);
-    }
-    private void configureAlerts() {
-        configureAlert(alertCustomer, "New customer", "The customer doesn't exist", "Do you want to add it?");
-        configureAlert(alertProduct, "New Product", "The product doesn't exist", "Do you want to add it?");
-    }
-    */
-
-
-
 }
