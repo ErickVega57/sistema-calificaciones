@@ -1,14 +1,22 @@
 package org.fmat.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import org.fmat.model.Alumnos.Alumno;
+import org.fmat.model.Alumnos.ListaAlumnos;
+import org.fmat.model.Archivos.CSVManipulation;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class ImportarArchivosController extends Controller implements ImportarArchivos{
     @FXML
@@ -30,11 +38,24 @@ public class ImportarArchivosController extends Controller implements ImportarAr
     public void validarArchivos() {
         String fileName = lectorArchivos.getText() + ".csv";
         Path ruta = Paths.get(rutaAlumnos,fileName);
+
         if (!Files.exists(ruta)){
             lanzarErrorArchivoNoExiste();
         } else {
-            lanzarArchivoExiste();
+            try {
+                CSVManipulation csvArchivo = new CSVManipulation();
+                ArrayList<String> contenido = csvArchivo.readFile(ruta);
+                ListaAlumnos lista = new ListaAlumnos(contenido);
+
+                //Guardar la lista en la lista global para poder mostrarla
+                Controller.alumnos = FXCollections.observableArrayList(lista.getListaDeAlumnos()); //la tabla necesita una lista observable
+                lanzarArchivoExiste();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
+
     }
 
     @FXML

@@ -39,7 +39,16 @@ public class Alumno {
     public int getCalFinal() {
         return calFinal;
     }
+
+    public String getCalFinalFormateado() {
+        return (calFinal == -1) ? "S/C" : String.valueOf(calFinal);
+    }
+
+
     public String getNombreCompleto(){
         return nombreCompleto;
+    }
+    public String getAsignatura(){
+        return asignatura;
     }
 }
