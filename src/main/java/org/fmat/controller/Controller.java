@@ -22,8 +22,8 @@ public class Controller {
         Scene scene = new Scene(loader.load(),900,600);
         stage.setTitle(titulo);
         stage.setScene(scene);
-        stage.setMinWidth(800);
-        stage.setMinHeight(500);
+        stage.setMinWidth(900);
+        stage.setMinHeight(600);
         stage.centerOnScreen();
         stage.show();
     }
@@ -32,7 +32,8 @@ public class Controller {
         Stage stage = (Stage) botonCerrar.getScene().getWindow();
         stage.close();
         try {
-            abrirVentana(titulo, fxml);
+            Controller c = new Controller();
+            c.abrirVentana(titulo,fxml);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
