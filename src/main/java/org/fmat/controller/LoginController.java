@@ -42,7 +42,7 @@ public class LoginController extends Controller implements Login {
         if(entradasValidas(user, passwd)){
             if(gc.loginCorrecto(user, passwd)){
                 System.out.println("[!] Sesion iniciada corrctamente");
-                cerrarYAbrirNuevaVentana("Menu", LOGIN_VIEW_FXML,loginButton);  //aqui pon Los datos del menu
+                cerrarYAbrirNuevaVentana("Menú", MENU_VIEW_FXML, loginButton);  //aqui pon Los datos del menu
                 //iniciar la ventana de menu
             }else
                 lanzarErrorLoginIncorrecto();
