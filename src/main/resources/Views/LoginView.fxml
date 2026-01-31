@@ -31,7 +31,7 @@
             </Label>
             <Button layoutX="398.0" layoutY="361.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" text="Iniciar Sesión" onAction="#login" />
             <PasswordField layoutX="365.0" layoutY="302.0" prefHeight="33.0" prefWidth="241.0" fx:id="campoPasswd" />
-            <Button layoutX="398.0" layoutY="422.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" text="Agregar Usuario" />
+            <Button layoutX="398.0" layoutY="422.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="137.0" text="Agregar Usuario" onAction="#agregarUser" fx:id="loginButton"/>
          </children>
       </AnchorPane>
    </children>
