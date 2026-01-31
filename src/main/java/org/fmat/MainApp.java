@@ -12,8 +12,10 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Controller c = new Controller();
-        c.abrirVentana("Login", Controller.LOGIN_VIEW_FXML);
+        c.abrirVentana("Menu", Controller.MENU_VIEW_FXML);
     }
+
+
 
     public static void main(String[] args) {
         launch(args);
