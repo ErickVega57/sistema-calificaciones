@@ -35,12 +35,10 @@ public class ListaAlumnos {
 
             // Limitar subList al tamaño real de argumentos
             int limite = Math.min(argumentos.length, 5);
-            System.out.println("Que hay: " + argumentos[0]);
             List<String> nombresL = Arrays.asList(argumentos).subList(1, limite);
 
             String nombre = String.join(" ", nombresL);
             String matricula = argumentos[0];
-            System.out.println(matricula);
 
             l.add(new Alumno(matricula, nombre));
         }

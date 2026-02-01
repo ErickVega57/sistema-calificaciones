@@ -23,7 +23,7 @@ public class PDFManipulation {
         String c = String.join("\n", contenido);
 
         Document doc = new Document();
-        PdfWriter.getInstance(doc, new FileOutputStream("ArchivosExportados/" + nombreArchivo));
+        PdfWriter.getInstance(doc, new FileOutputStream("ArchivosExportados/" + nombreArchivo + ".pdf"));
         doc.open();
         doc.add(new Paragraph(c));
         doc.close();

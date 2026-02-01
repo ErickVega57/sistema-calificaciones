@@ -1,26 +1,18 @@
 package org.fmat.controller;
 
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
 import org.fmat.model.Alumnos.Alumno;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
 import org.fmat.model.Alumnos.ListaAlumnos;
 import org.fmat.model.Archivos.CSVManipulation;
 import org.fmat.model.Archivos.PDFManipulation;
 
-import javax.imageio.IIOException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.ResourceBundle;
 
 public class VisualizarDatosController extends Controller implements VisualizarDatos {
     @FXML
@@ -63,12 +55,14 @@ public class VisualizarDatosController extends Controller implements VisualizarD
                 String nombreArchivo = pantallaNombre();
                 if(nombreArchivo == null){
                     lanzarErrorExportarCSV();
+                    return;
                 }else
                     try {
                         c.writeFile(nombreArchivo, contenidoCSV);
                         lanzarArchivoExportadoCorrectamente();
                     }catch (IOException e){
                         lanzarErrorExportarCSV();
+                        return;
                     }
             }
         }

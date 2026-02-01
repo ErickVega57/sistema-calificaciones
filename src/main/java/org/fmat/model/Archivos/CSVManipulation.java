@@ -30,8 +30,8 @@ public class CSVManipulation {
         System.out.println(String.join("\n", c));
     }
 
-    public void writeFile(String fileName, ArrayList<String> contenido) throws IOException {
-        Path ruta = Paths.get("ArchivosExportados", fileName);
+    public void writeFile(String fileName , ArrayList<String> contenido) throws IOException {
+        Path ruta = Paths.get("ArchivosExportados", fileName + ".csv");
         Files.createDirectories(ruta.getParent());
         if (Files.exists(ruta)) {
             System.out.println("El archivo ya existe. Se sobrescribirá.");

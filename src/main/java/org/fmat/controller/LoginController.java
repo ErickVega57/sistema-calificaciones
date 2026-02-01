@@ -1,6 +1,5 @@
 package org.fmat.controller;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -8,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
 import org.fmat.clases.GestorUsersContras;
+
+import java.io.IOException;
 
 
 public class LoginController extends Controller implements Login {
@@ -36,7 +37,7 @@ public class LoginController extends Controller implements Login {
 
     @Override
     @FXML
-    public void login() {
+    public void login() throws IOException {
         String user = campoUsuario.getText();
         String passwd = campoPasswd.getText();
         if(entradasValidas(user, passwd)){
@@ -52,7 +53,7 @@ public class LoginController extends Controller implements Login {
 
     @Override
     @FXML
-    public void agregarUser() {
+    public void agregarUser() throws IOException {
         String user = campoUsuario.getText();
         String passwd = campoPasswd.getText();
         if(entradasValidas(user, passwd)){
