@@ -12,8 +12,10 @@ import java.util.ArrayList;
 
 public class PDFManipulation {
 
-    public static void WritePDF(ArrayList<String> contenido ) throws FileNotFoundException {
-        Path ruta = Paths.get("ArchivosExportados","AlumnosPDF.pdf");
+    public PDFManipulation(){}
+
+    public void writePDF(String nombreArchivo,ArrayList<String> contenido ) throws FileNotFoundException {
+        Path ruta = Paths.get("ArchivosExportados/" + nombreArchivo);
         if (Files.exists(ruta)) {
             System.out.println("El archivo ya existe. Se sobrescribirá.");
         }
@@ -21,7 +23,7 @@ public class PDFManipulation {
         String c = String.join("\n", contenido);
 
         Document doc = new Document();
-        PdfWriter.getInstance(doc, new FileOutputStream("ArchivosExportados/AlumnosPDF"));
+        PdfWriter.getInstance(doc, new FileOutputStream("ArchivosExportados/" + nombreArchivo));
         doc.open();
         doc.add(new Paragraph(c));
         doc.close();

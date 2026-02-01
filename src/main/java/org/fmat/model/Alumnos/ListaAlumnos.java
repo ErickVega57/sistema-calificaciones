@@ -5,31 +5,22 @@ import java.util.List;
 
 public class ListaAlumnos {
 
-    private ArrayList<Alumno> listaDeAlumnos = new ArrayList<>();
+    private ArrayList<Alumno> listaDeAlumnos = null;
+
+
+    public ListaAlumnos(){
+        this.listaDeAlumnos = new ArrayList<>();
+    }
 
     public ListaAlumnos(ArrayList<String> contenido){
         this.listaDeAlumnos = llenarLista(contenido);
     } // se llena la lista con el contenido de un archivo
 
+    public void agregar(Alumno alumno){
+        listaDeAlumnos.add(alumno);
+    }
 
-    /*private ArrayList<Alumno> llenarLista (ArrayList<String> contenido){
-        ArrayList<Alumno> l = new ArrayList<>() ;
-        int limite;
-        for (int i = 1; i < contenido.size(); i++){
-            String linea = contenido.get(i);// obtiene linea
 
-            List<String> argumentos = List.of(linea.split(" ")); // divide la linea en argumentos
-
-            limite = (argumentos.size() > 4) ? 5 : 4; // ve cuanto mide la linea (para los que tienen 1 o 2 nombres)
-            List<String> nombresL = argumentos.subList(1,limite); // separa los nombres y apellidos
-
-            String nombre = String.join(" ",nombresL); // los vuelve un String
-            String matricula = argumentos.get(0); // primer argumento = matricula
-            Alumno alumno = new Alumno(matricula, nombre); //crea alumno
-            l.add(alumno); //agrega alumno
-        }
-        return l;
-    }*/
 
     private ArrayList<Alumno> llenarLista(ArrayList<String> contenido){
         ArrayList<Alumno> l = new ArrayList<>();
@@ -87,6 +78,14 @@ public class ListaAlumnos {
 
         }else
             return null; // si no es exportable devuelve null
+    }
+
+    public ArrayList<String> generarContenidoPDF(){
+        ArrayList<String> contenido = new ArrayList<>();
+        for (Alumno a : listaDeAlumnos){
+            contenido.add(a.toPDF());
+        }
+        return contenido;
     }
 
 

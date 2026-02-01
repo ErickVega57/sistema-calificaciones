@@ -4,17 +4,22 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 import org.fmat.model.Alumnos.Alumno;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
+import org.fmat.model.Alumnos.ListaAlumnos;
+import org.fmat.model.Archivos.CSVManipulation;
 import org.fmat.model.Archivos.PDFManipulation;
 
+import javax.imageio.IIOException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class VisualizarDatosController extends Controller implements VisualizarDatos {
@@ -35,17 +40,80 @@ public class VisualizarDatosController extends Controller implements VisualizarD
     private TableColumn<Alumno,String> colCalificacion;
 
 
+    private final Alert alertCalificacionNoValida = new Alert(Alert.AlertType.WARNING);
+    private final Alert alertExportarCsvNoValido = new Alert(Alert.AlertType.WARNING);
+    private final Alert getAlertExportarPDFNoValido = new Alert(Alert.AlertType.WARNING);
+    private final Alert alertArchivoExportado = new Alert(Alert.AlertType.CONFIRMATION);
+    private final ButtonType buttonAceptar = new ButtonType("ACEPTAR");
+
     @FXML
     @Override
     public void exportarCSV() {
-
+        for (Alumno a : Controller.alumnos){
+            if(a.getCalFinal() == -1){
+                lanzarErrorExportarCSV();
+                return;
+            }else{
+                ListaAlumnos alumnoslista = new ListaAlumnos();
+                for (Alumno a1 : Controller.alumnos){
+                    alumnoslista.agregar(a1);
+                }
+                ArrayList<String> contenidoCSV = alumnoslista.generarContenidoCSV();
+                CSVManipulation c = new CSVManipulation();
+                String nombreArchivo = pantallaNombre();
+                if(nombreArchivo == null){
+                    lanzarErrorExportarCSV();
+                }else
+                    try {
+                        c.writeFile(nombreArchivo, contenidoCSV);
+                        lanzarArchivoExportadoCorrectamente();
+                    }catch (IOException e){
+                        lanzarErrorExportarCSV();
+                    }
+            }
+        }
     }
+
 
     @FXML
     @Override
     public void exportarPDF() {
-
+        ListaAlumnos alumnoslista = new ListaAlumnos();
+        for (Alumno a : Controller.alumnos){
+            alumnoslista.agregar(a);
+        }
+        ArrayList<String> contenidoPDF = alumnoslista.generarContenidoPDF();
+        PDFManipulation c = new PDFManipulation();
+        String nombreArchivo = pantallaNombre();
+        if(nombreArchivo == null){
+            lanzarErrorExportarPDF();
+        }else
+            try {
+                c.writePDF(nombreArchivo, contenidoPDF);
+                lanzarArchivoExportadoCorrectamente();
+            }catch (FileNotFoundException e){
+                lanzarErrorExportarPDF();
+            }
     }
+
+    private String pantallaNombre(){
+        TextInputDialog panelNombreArhivo = new TextInputDialog();
+        panelNombreArhivo.setTitle("Guardar Archivo");
+        panelNombreArhivo.setHeaderText("Nombre del archivo");
+        panelNombreArhivo.setContentText("¿Qué nombre deseas ponerle al archivo?");
+        Optional<String> nombre = panelNombreArhivo.showAndWait();
+
+        if(nombre.isPresent()){
+            String nombreArchivo = nombre.get().trim();
+            if (!nombreArchivo.isEmpty()) {
+                return nombreArchivo;
+            }else {
+                return null;
+            }
+        }else
+            return null;
+    }
+
 
     @FXML
     public void volverMenu() {
@@ -54,6 +122,7 @@ public class VisualizarDatosController extends Controller implements VisualizarD
 
     public void initialize() {
         setupTableView();
+        configureAlerts();
     }
 
 
@@ -90,7 +159,7 @@ public class VisualizarDatosController extends Controller implements VisualizarD
                     if (cal >= 0 && cal <= 100) {
                         alumno.setCalFinal(cal);
                     } else {
-                        //Debe ir una advertencia
+                        lanzarErrorCalificacionNoValida();
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Calificación no válida: ");
@@ -102,6 +171,51 @@ public class VisualizarDatosController extends Controller implements VisualizarD
 
         tableReport.setEditable(true);
 
+    }
+
+
+    private void configureAlert(Alert alert, String title, String header, String content) {
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.getButtonTypes().setAll(buttonAceptar);
+    }
+
+    private void configureAlerts() {
+        configureAlert(alertCalificacionNoValida, "Error", "La calificación no es valida", "Presione ACEPTAR para continuar");
+        configureAlert(alertExportarCsvNoValido, "Error al exportar", "El archivo CSV no puede ser exportado", "Presione ACEPTAR para continuar");
+        configureAlert(getAlertExportarPDFNoValido, "Error al exportar", "Error al exportar PDF", "Presione ACEPTAR para continuar");
+        configureAlert(alertArchivoExportado, "Archivo Exportado", "Archivo exportado correctamente","Presione ACEPTAR para continuar");
+    }
+
+
+    private void lanzarErrorCalificacionNoValida() {
+        alertCalificacionNoValida.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == buttonAceptar) {
+                alertCalificacionNoValida.close();
+            }
+        });
+    }
+    private void lanzarErrorExportarPDF() {
+        getAlertExportarPDFNoValido.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == buttonAceptar) {
+                getAlertExportarPDFNoValido.close();
+            }
+        });
+    }
+    private void lanzarErrorExportarCSV() {
+        alertExportarCsvNoValido.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == buttonAceptar) {
+                alertExportarCsvNoValido.close();
+            }
+        });
+    }
+    private void lanzarArchivoExportadoCorrectamente() {
+        alertArchivoExportado.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == buttonAceptar) {
+                alertArchivoExportado.close();
+            }
+        });
     }
 
 }
