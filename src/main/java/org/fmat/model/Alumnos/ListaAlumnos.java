@@ -10,13 +10,15 @@ public class ListaAlumnos {
         this.listaDeAlumnos = llenarLista(contenido);
     } // se llena la lista con el contenido de un archivo
 
-    private ArrayList<Alumno> llenarLista (ArrayList<String> contenido){
+
+    /*private ArrayList<Alumno> llenarLista (ArrayList<String> contenido){
         ArrayList<Alumno> l = new ArrayList<>() ;
         int limite;
         for (int i = 1; i < contenido.size(); i++){
             String linea = contenido.get(i);// obtiene linea
 
             List<String> argumentos = List.of(linea.split(" ")); // divide la linea en argumentos
+
             limite = (argumentos.size() > 4) ? 5 : 4; // ve cuanto mide la linea (para los que tienen 1 o 2 nombres)
             List<String> nombresL = argumentos.subList(1,limite); // separa los nombres y apellidos
 
@@ -24,6 +26,28 @@ public class ListaAlumnos {
             String matricula = argumentos.get(0); // primer argumento = matricula
             Alumno alumno = new Alumno(matricula, nombre); //crea alumno
             l.add(alumno); //agrega alumno
+        }
+        return l;
+    }*/
+
+    private ArrayList<Alumno> llenarLista(ArrayList<String> contenido){
+        ArrayList<Alumno> l = new ArrayList<>();
+        for (int i = 1; i < contenido.size(); i++) {
+            String linea = contenido.get(i).trim();
+            if (linea.isEmpty()) continue;
+
+            String[] argumentos = linea.split(" ");
+
+            if (argumentos.length < 2) continue; // saltar si no hay matrícula + nombre
+
+            // Limitar subList al tamaño real de argumentos
+            int limite = Math.min(argumentos.length, 5);
+            List<String> nombresL = java.util.Arrays.asList(argumentos).subList(1, limite);
+
+            String nombre = String.join(" ", nombresL);
+            String matricula = argumentos[0];
+
+            l.add(new Alumno(matricula, nombre));
         }
         return l;
     }

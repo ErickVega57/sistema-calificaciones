@@ -1,11 +1,14 @@
 package org.fmat.controller;
 
+import javafx.beans.Observable;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import org.fmat.MainApp;
+import org.fmat.model.Alumnos.Alumno;
 
 import java.io.IOException;
 
@@ -18,6 +21,7 @@ public class Controller {
     public static final String IMPORT_FILE_FXML = VIEWS_DIRECTORY + "ImportarArchivosView.fxml";
     public static final String VISUALIZE_FILE_FXML = VIEWS_DIRECTORY + "VisualizarDatosView.fxml";
 
+    public static ObservableList<Alumno> alumnos;
 
     public Controller(){}
 
