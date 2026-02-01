@@ -1,5 +1,6 @@
 package org.fmat.model.Alumnos;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListaAlumnos {
@@ -34,18 +35,21 @@ public class ListaAlumnos {
         ArrayList<Alumno> l = new ArrayList<>();
         for (int i = 1; i < contenido.size(); i++) {
             String linea = contenido.get(i).trim();
+            System.out.println(linea);
             if (linea.isEmpty()) continue;
 
-            String[] argumentos = linea.split(" ");
+            String[] argumentos = linea.split(",");
 
             if (argumentos.length < 2) continue; // saltar si no hay matrícula + nombre
 
             // Limitar subList al tamaño real de argumentos
             int limite = Math.min(argumentos.length, 5);
-            List<String> nombresL = java.util.Arrays.asList(argumentos).subList(1, limite);
+            System.out.println("Que hay: " + argumentos[0]);
+            List<String> nombresL = Arrays.asList(argumentos).subList(1, limite);
 
             String nombre = String.join(" ", nombresL);
             String matricula = argumentos[0];
+            System.out.println(matricula);
 
             l.add(new Alumno(matricula, nombre));
         }
