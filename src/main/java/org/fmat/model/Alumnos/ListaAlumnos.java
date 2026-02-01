@@ -26,7 +26,6 @@ public class ListaAlumnos {
         ArrayList<Alumno> l = new ArrayList<>();
         for (int i = 1; i < contenido.size(); i++) {
             String linea = contenido.get(i).trim();
-            System.out.println(linea);
             if (linea.isEmpty()) continue;
 
             String[] argumentos = linea.split(",");
