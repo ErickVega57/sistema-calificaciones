@@ -21,6 +21,7 @@ public class Controller {
     public static final String VISUALIZE_FILE_FXML = VIEWS_DIRECTORY + "VisualizarDatosView.fxml";
 
     public static ObservableList<Alumno> alumnos;
+
     public Controller(){}
 
     public void abrirVentana (String titulo, String fxml) throws IOException {
