@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="320.0" prefWidth="624.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fmat.controller.ImportarArchivosController">
+    <children>
+        <AnchorPane prefHeight="318.0" prefWidth="643.0">
+            <children>
+                <Label layoutX="139.0" layoutY="79.0" text="Ingrese el nombre de su archivo CSV:">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                </Label>
+                <Label layoutX="415.0" layoutY="153.0" prefHeight="21.0" prefWidth="37.0" text=".csv">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="lectorArchivos" layoutX="197.0" layoutY="143.0" prefHeight="33.0" prefWidth="209.0" />
+                <Button fx:id="btnValidarNombreArchivo" layoutX="249.0" layoutY="203.0" mnemonicParsing="false" onAction="#validarArchivos" prefHeight="42.0" prefWidth="137.0" text="Subir" />
+                <Button fx:id="btnVolverMenu" layoutX="26.0" layoutY="276.0" mnemonicParsing="false" onAction="#volverMenu" prefHeight="28.0" prefWidth="72.0" text="Volver" />
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
