@@ -2,6 +2,7 @@ package org.fmat.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import org.fmat.vistas.Vistas;
 
 
 public class MenuController extends Controller implements Menu{
@@ -13,12 +14,12 @@ public class MenuController extends Controller implements Menu{
 
     @FXML
     public void importarDatos() {
-        cerrarYAbrirNuevaVentana("Importar Archivos", IMPORT_FILE_FXML, btnImportarDatos);
+        cambiarVista(Vistas.IMPORT_VIEW, btnVerDatos);
     }
 
     @FXML
     public void visualizarDatos() {
-        cerrarYAbrirNuevaVentana("Visualizar Datos", VISUALIZE_FILE_FXML, btnVerDatos);
+        cambiarVista(Vistas.VISUALIZE_FILE, btnImportarDatos);
     }
 
 

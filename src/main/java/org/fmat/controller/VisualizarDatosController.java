@@ -7,6 +7,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import org.fmat.model.Alumnos.Alumno;
 import org.fmat.model.Alumnos.ListaAlumnos;
 import org.fmat.model.Archivos.CSVManipulation;
+import org.fmat.model.Archivos.Exporter;
 import org.fmat.model.Archivos.PDFManipulation;
 
 import java.io.FileNotFoundException;
@@ -41,53 +42,62 @@ public class VisualizarDatosController extends Controller implements VisualizarD
     @FXML
     @Override
     public void exportarCSV() {
-        for (Alumno a : Controller.alumnos){
-            if(a.getCalFinal() == -1){
-                lanzarErrorExportarCSV();
-                return;
-            }else{
-                ListaAlumnos alumnoslista = new ListaAlumnos();
-                for (Alumno a1 : Controller.alumnos){
-                    alumnoslista.agregar(a1);
-                }
-                ArrayList<String> contenidoCSV = alumnoslista.generarContenidoCSV();
-                CSVManipulation c = new CSVManipulation();
-                String nombreArchivo = pantallaNombre();
-                if(nombreArchivo == null){
-                    lanzarErrorExportarCSV();
-                    return;
-                }else
-                    try {
-                        c.writeFile(nombreArchivo, contenidoCSV);
-                        lanzarArchivoExportadoCorrectamente();
-                    }catch (IOException e){
-                        lanzarErrorExportarCSV();
-                        return;
-                    }
-            }
+
+        if(!calificacionesValidas()){
+            lanzarErrorCalificacionNoValida();
+            return;
+        }
+
+        ListaAlumnos alumnoslista = new ListaAlumnos();
+        for (Alumno a1 : Controller.alumnos){
+            alumnoslista.agregar(a1);
+        }
+        ArrayList<String> contenidoCSV = alumnoslista.generarContenidoCSV();
+        CSVManipulation csv = new CSVManipulation();
+        String nombreArchivo = pantallaNombre();
+        try {
+            exportar(csv, nombreArchivo, contenidoCSV);
+        } catch (IOException e) {
+            lanzarErrorExportarCSV();
         }
     }
+
+    private void exportar(Exporter exporter, String nombreArchivo, ArrayList<String> contenido) throws IOException {
+        exporter.exportarArchivo(nombreArchivo, contenido);
+    }
+
+    private boolean calificacionesValidas(){
+        for (Alumno a : Controller.alumnos) {
+            if (a.getCalFinal() == -1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 
     @FXML
     @Override
     public void exportarPDF() {
+
+        if(!calificacionesValidas()){
+            lanzarErrorCalificacionNoValida();
+            return;
+        }
+
         ListaAlumnos alumnoslista = new ListaAlumnos();
         for (Alumno a : Controller.alumnos){
             alumnoslista.agregar(a);
         }
         ArrayList<String> contenidoPDF = alumnoslista.generarContenidoPDF();
-        PDFManipulation c = new PDFManipulation();
+        PDFManipulation pdf = new PDFManipulation();
         String nombreArchivo = pantallaNombre();
-        if(nombreArchivo == null){
-            lanzarErrorExportarPDF();
-        }else
-            try {
-                c.writePDF(nombreArchivo, contenidoPDF);
-                lanzarArchivoExportadoCorrectamente();
-            }catch (FileNotFoundException e){
-                lanzarErrorExportarPDF();
-            }
+        try {
+            exportar(pdf, nombreArchivo, contenidoPDF);
+        } catch (IOException e) {
+            lanzarErrorExportarCSV();
+        }
     }
 
     private String pantallaNombre(){
@@ -111,7 +121,7 @@ public class VisualizarDatosController extends Controller implements VisualizarD
 
     @FXML
     public void volverMenu() {
-        cerrarVolverAlMenu("Menú", MENU_VIEW_FXML, btnVolverMenu);
+        cerrarVolverAlMenu( btnVolverMenu);
     }
 
     public void initialize() {
@@ -141,6 +151,12 @@ public class VisualizarDatosController extends Controller implements VisualizarD
         //Volver columna editable y modificar la linea
         colCalificacion.setCellFactory(TextFieldTableCell.forTableColumn());
 
+
+        /*
+         * REFACTORIZACION-IMPL#7
+         *  ENCPSULATE FIELD
+         *
+         */
         colCalificacion.setOnEditCommit(event -> {
             Alumno alumno = event.getRowValue();
             String nuevaCal = event.getNewValue().trim();
@@ -150,13 +166,9 @@ public class VisualizarDatosController extends Controller implements VisualizarD
             } else {
                 try {
                     int cal = Integer.parseInt(nuevaCal);
-                    if (cal >= 0 && cal <= 100) {
-                        alumno.setCalFinal(cal);
-                    } else {
-                        lanzarErrorCalificacionNoValida();
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("Calificación no válida: ");
+                    alumno.setCalFinal(cal);
+                } catch (Exception e) {
+                    lanzarErrorCalificacionNoValida();
                 }
             }
 

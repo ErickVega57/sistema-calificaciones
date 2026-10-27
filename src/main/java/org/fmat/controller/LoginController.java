@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
 import org.fmat.clases.GestorUsersContras;
+import org.fmat.vistas.Vistas;
 
 import java.io.IOException;
 
@@ -35,48 +36,107 @@ public class LoginController extends Controller implements Login {
     }
 
 
+    /*
+    * REFACTORIZACION-IMPL#9
+    * ConsolidateConditional
+     */
+
     @Override
     @FXML
     public void login() throws IOException {
         String user = campoUsuario.getText();
         String passwd = campoPasswd.getText();
-        if(entradasValidas(user, passwd)){
-            if(gc.loginCorrecto(user, passwd)){
-                System.out.println("[!] Sesion iniciada corrctamente");
-                cerrarYAbrirNuevaVentana("Menú", MENU_VIEW_FXML, loginButton);  //aqui pon Los datos del menu
+        //if(entradasValidas(user, passwd)){
+            //if(gc.loginCorrecto(user, passwd)){
+                //System.out.println("[!] Sesion iniciada corrctamente");
+                //cerrarYAbrirNuevaVentana("Menú", MENU_VIEW_FXML, loginButton);  //aqui pon Los datos del menu
                 //iniciar la ventana de menu
-            }else
-                lanzarErrorLoginIncorrecto();
+            //}else
+                //lanzarErrorLoginIncorrecto();
+        //}
+
+        if(!(usuarioEsValido(user) && usuarioEsValido(passwd)) || !gc.loginCorrecto(user,passwd)){
+            lanzarErrorLoginIncorrecto();
+            return;
         }
+
+        cambiarVista(Vistas.MENU_VIEW, loginButton);
+
         System.out.println("[!] Usuario: " + user );
     }
 
+
+
+    /*
+     * REFACTORIZACION-IMPL#1
+     * REPLACED NESTED CONDITIONAL WITH GUARD CLAUSES
+     *
+     */
     @Override
     @FXML
     public void agregarUser() throws IOException {
+
         String user = campoUsuario.getText();
         String passwd = campoPasswd.getText();
-        if(entradasValidas(user, passwd)){
-            if(gc.guardarUsuario(user, passwd)){
-                lanzarConfirmacionUsuarioAgregado();
-            }else
-                lanzarErrorUsuarioNoValido();
-        }
-    }
 
-    private boolean entradasValidas(String user, String passwd){
-        if(!gc.entradaUsuarioEsValida(user)){
+        //codigo ANTERIOR menos legible
+        // if(entradasValidas(user, passwd)){
+        //    if(gc.guardarUsuario(user, passwd)){
+        //        lanzarConfirmacionUsuarioAgregado();
+        //    }else
+        //        lanzarErrorUsuarioNoValido();
+        //}
+
+        if(!usuarioEsValido(user)){
             lanzarErrorUsuarioNoValido();
-            return false;
+            return;
         }
-        if(!gc.entradaPasswdEsValida(passwd)){
+
+        if(!contraEsValida(passwd)){
             lanzarErrorContraIncorrecta();
-            return false;
+            return;
         }
-        return true;
+
+        gc.guardarUsuario(user, passwd);
+        lanzarConfirmacionUsuarioAgregado();
     }
 
-    private void configureAlert(Alert alert, String title, String header, String content) {
+    /*
+     * REFACTORIZACION-IMPL#1
+     * DECOMPOSE CONDITIONAL
+     *
+     */
+
+    private  boolean usuarioEsValido(String user){
+        return gc.entradaUsuarioEsValida(user);
+    }
+    private boolean contraEsValida(String passwd){
+        return gc.entradaPasswdEsValida(passwd);
+    }
+    //
+    //private boolean entradasValidas(String user, String passwd) {
+        // ANTERIOR
+        //if(!gc.entradaUsuarioEsValida(user)){
+        //    lanzarErrorUsuarioNoValido();
+        //    return false;
+        //}
+        //if(!gc.entradaPasswdEsValida(passwd)){
+        //    lanzarErrorContraIncorrecta();
+        //    return false;
+        //}
+        //return true;
+    //}
+    // TERMINO DECOMPOSE
+
+
+    /*
+    *REFACTORIZACION-IMPL#3
+    * PULL UP METHOD
+    *
+    *
+     */
+
+    protected void configureAlert(Alert alert, String title, String header, String content) {
         alert.setTitle(title);
         alert.setHeaderText(header);
         alert.setContentText(content);
