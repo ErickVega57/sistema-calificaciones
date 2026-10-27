@@ -1,4 +1,7 @@
 package org.fmat.model.Alumnos;
+import org.fmat.model.Archivos.CSVManipulation;
+import org.fmat.model.Archivos.PDFManipulation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,9 +53,10 @@ public class ListaAlumnos {
 
     public void verAlumnos(){
         for (Alumno a : listaDeAlumnos) {
-            System.out.println(a.toCSV());  //mostrar como se imprime CSV
+            System.out.println(CSVManipulation.AlumnoToCSV(a));  //mostrar como se imprime CSV
         }
     }
+
     public boolean esExportable(){
         for (Alumno a : listaDeAlumnos){
             if (a.getCalFinal() < 0) // valida que todos tengan calificacion mayor a -1 (por defecto)
@@ -69,7 +73,7 @@ public class ListaAlumnos {
 
             for (Alumno a : listaDeAlumnos){
                 // por cada alumno lo agrega formato CSV
-                contenido.add(a.toCSV());
+                contenido.add(CSVManipulation.AlumnoToCSV(a));
             }
             return contenido;  // devuelve el contenido
 
@@ -80,7 +84,7 @@ public class ListaAlumnos {
     public ArrayList<String> generarContenidoPDF(){
         ArrayList<String> contenido = new ArrayList<>();
         for (Alumno a : listaDeAlumnos){
-            contenido.add(a.toPDF());
+            contenido.add(PDFManipulation.AlumnoToPDF(a));
         }
         return contenido;
     }

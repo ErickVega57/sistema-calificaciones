@@ -67,7 +67,7 @@ public void cerrarYAbrirNuevaVentana(String titulo, String fxml, Button botonCer
 
 ## Introduce Parameter Object
 
-Siempre se pasa la ruta y el título de la ventana en la clase `Controller` (métodos `abrirVentana`, `cerrarYAbrirNuevaVentana` y `cerrarVolverAlMenu`), por lo que podemos crear un objeto ENUM para meter ahí los títulos y hacer algo como `MENU_VISTA.getTitulo()`:
+Siempre se pasa la ruta y el título de la ventana en la clase `Controller` (métodos `abrirVentana`, `cambiarVista` y `cerrarVolverAlMenu`), por lo que podemos crear un objeto ENUM para meter ahí los títulos y hacer algo como `MENU_VISTA.getTitulo()`:
 
 ```java
 public void cerrarYAbrirNuevaVentana(String titulo, String fxml, Button botonCerrar){...}
@@ -171,7 +171,7 @@ if(nombre.isPresent()){
 
 ## Hide Method
 
-La clase `Controller` incluye métodos públicos (`abrirVentana`, `cerrarYAbrirNuevaVentana`, `cerrarVolverAlMenu`) que en realidad solo son usados por sus clases hija dentro de la jerarquía, por lo que se pueden cambiar a `protected`:
+La clase `Controller` incluye métodos públicos (`abrirVentana`, `cambiarVista`, `cerrarVolverAlMenu`) que en realidad solo son usados por sus clases hija dentro de la jerarquía, por lo que se pueden cambiar a `protected`:
 
 ```java
 public void cerrarYAbrirNuevaVentana(String titulo, String fxml, Button botonCerrar){ ... }

@@ -12,6 +12,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/*
+* REFACTORIZACION IMPL-2
+* EXTRACT CLASS:
+*   - SeguridadPasswd
+*   - Servicio Autenticacion
+*   - UsuarioRepository
+ */
+
 public class GestorUsersContras {
 
     private static final  Argon2 argon2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
@@ -47,8 +55,9 @@ public class GestorUsersContras {
         return user.length() >= 4;
     }
 
+    // refactorizar SUBSTITUTE ALGORITHM
     public boolean guardarUsuario(String user, String passwd) throws IOException {
-        if(false){  // usuario existe
+        if(userExiste(user)){  // usuario existe
             return false;
         }
         String hash = encriptar(passwd);

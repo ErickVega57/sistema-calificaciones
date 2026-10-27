@@ -60,7 +60,7 @@ public class ImportarArchivosController extends Controller implements ImportarAr
 
     @FXML
     public void volverMenu() {
-        cerrarVolverAlMenu("Menú", MENU_VIEW_FXML, btnVolverMenu);
+        cerrarVolverAlMenu( btnVolverMenu);
     }
 
 

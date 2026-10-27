@@ -19,21 +19,35 @@ public class Alumno {
         return String.format("%-10s | %-40s | %-10s | %d", matricula, nombreCompleto, asignatura, calFinal);
     }
 
-    //Transforma al alumnos en formato CSV
-    public String toCSV (){
+    /*
+     *REFACTORIZACION-IMPL#5
+     * MOVE METHOD
+     * metodo toCSV hacia otra clase
+     *
+     */
+    //public String toCSV (){
         //formato CSV
-        String calFinalcsv = (calFinal == -1) ? "No registrado" : String.valueOf(calFinal);
-        return String.format("%s,%s,%s", matricula,nombreCompleto,calFinalcsv);
-    }
+        //String calFinalcsv = (calFinal == -1) ? "No registrado" : String.valueOf(calFinal);
+        //return String.format("%s,%s,%s", matricula,nombreCompleto,calFinalcsv);
+    //}
 
-    public String toPDF(){
-        String calFinalcsv = (calFinal == -1) ? "S/C" : String.valueOf(calFinal);
-        return String.format("%s %s %s", matricula,nombreCompleto,calFinalcsv);
-    }
+    /*
+    *REFACTORIZACION-IMPL#5
+    * MOVE METHOD
+    * metodos toPDF hacia otra clase
+    *
+     */
+    //public String toPDF(){
+        //String calFinalcsv = (calFinal == -1) ? "S/C" : String.valueOf(calFinal);
+        //return String.format("%s %s %s", matricula,nombreCompleto,calFinalcsv);
+    //}
 
     public void setCalFinal(int calFinal) {
-        if(calFinal >= 0 && calFinal <= 100)
+        if(calFinal >= 0 && calFinal <= 100 || calFinal == -1){
             this.calFinal = calFinal;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     public int getCalFinal() {
@@ -50,5 +64,9 @@ public class Alumno {
     }
     public String getAsignatura(){
         return asignatura;
+    }
+
+    public String getMatricula() {
+        return matricula;
     }
 }

@@ -1,12 +1,14 @@
 package org.fmat.model.Archivos;
 
+import org.fmat.model.Alumnos.Alumno;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class CSVManipulation {
+public class CSVManipulation implements Exporter {
 
     private BufferedReader lector; //servirá para leer el archivo
     private String linea; //servirá para recibir cada linea
@@ -23,15 +25,18 @@ public class CSVManipulation {
         return contenido; // retorna todas las lineas del archivo
     }
 
-    public void imprimirDatos(Path ruta) throws IOException {
-        // lee el archivo y guarda las lineas
-        ArrayList<String> c = readFile(ruta);
-        // join sirve para separar los elementos de una lista con un caracter en este caso '\n'
-        System.out.println(String.join("\n", c));
+    public void appendFile(Path ruta, String linea) throws IOException {
+        try(FileWriter escritor = new FileWriter(ruta.toFile() , true)) {
+            escritor.write(linea + '\n');
+        }
     }
 
-    public void writeFile(String fileName , ArrayList<String> contenido) throws IOException {
-        Path ruta = Paths.get("ArchivosExportados", fileName + ".csv");
+    /*
+    MOVE METHOD
+     */
+    @Override
+    public void exportarArchivo(String nombreArchivo, ArrayList<String> contenido) throws IOException {
+        Path ruta = Paths.get("ArchivosExportados", nombreArchivo + ".csv");
         Files.createDirectories(ruta.getParent());
         if (Files.exists(ruta)) {
             System.out.println("El archivo ya existe. Se sobrescribirá.");
@@ -42,10 +47,15 @@ public class CSVManipulation {
             }
         }
     }
-    public void appendFile(Path ruta, String linea) throws IOException {
-        try(FileWriter escritor = new FileWriter(ruta.toFile() , true)) {
-            escritor.write(linea + '\n');
-        }
-    }
 
+    public static String AlumnoToCSV (Alumno alumno){
+        //formato CSV
+        int calFinal = alumno.getCalFinal();
+
+        String matricula = alumno.getMatricula();
+        String nombreCompleto = alumno.getNombreCompleto();
+        String calFinalcsv = (calFinal == -1) ? "No registrado" : String.valueOf(calFinal);
+
+        return String.format("%s,%s,%s", matricula,nombreCompleto,calFinalcsv);
+    }
 }
