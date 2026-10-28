@@ -41,12 +41,6 @@ public class Controller {
         stage.show();
     }
 
-    /*
-    * REFACTORIZACION : EXTRACT METHOD
-    *
-    * RENAME METHOD CAMBIAR VISTA
-    *
-    */
     public void cambiarVista(Vistas vista, Button botonCerrar){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(vista.getRutaVista()));
