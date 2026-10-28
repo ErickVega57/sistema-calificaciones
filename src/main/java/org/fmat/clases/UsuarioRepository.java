@@ -10,12 +10,17 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class UsuarioRepository {
+
     private final Path rutaUsuarios = Paths.get("Usuarios/Usuarios.csv");
     private final CSVManipulation csv = new CSVManipulation();
 
-    public boolean guardarUsuario(String user, String hash) throws IOException {
+    public boolean guardarUsuario(String user, String hash){
         String usuarioCSV = user + ",\"" + hash + "\"";
-        csv.appendFile(rutaUsuarios, usuarioCSV);
+        try {
+            csv.appendFile(rutaUsuarios, usuarioCSV);
+        } catch (IOException e) {
+            return false;
+        }
         return true;
     }
 

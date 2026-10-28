@@ -51,11 +51,6 @@ public class ListaAlumnos {
         return listaDeAlumnos;  //devuelve la lista
     }
 
-    public void verAlumnos(){
-        for (Alumno a : listaDeAlumnos) {
-            System.out.println(CSVManipulation.AlumnoToCSV(a));  //mostrar como se imprime CSV
-        }
-    }
 
     public boolean esExportable(){
         for (Alumno a : listaDeAlumnos){

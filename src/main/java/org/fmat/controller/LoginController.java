@@ -7,6 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.Button;
 import org.fmat.clases.GestorUsersContras;
+import org.fmat.clases.SeguridadPassword;
+import org.fmat.clases.ServicioAutenticacion;
+import org.fmat.clases.UsuarioRepository;
 import org.fmat.vistas.Vistas;
 
 import java.io.IOException;
@@ -14,7 +17,10 @@ import java.io.IOException;
 
 public class LoginController extends Controller implements Login {
 
-    private static final GestorUsersContras gc = new GestorUsersContras();
+    private static final GestorUsersContras gestorContras = new GestorUsersContras();
+    private static final ServicioAutenticacion autenticacion = new ServicioAutenticacion();
+
+
     private final Alert alertUsuairioInvalido = new Alert(Alert.AlertType.WARNING);
     private final Alert alertPasswdIncorrecta = new Alert(Alert.AlertType.WARNING);
     private final Alert alertLoginIncorrecto = new Alert(Alert.AlertType.WARNING);
@@ -55,7 +61,7 @@ public class LoginController extends Controller implements Login {
                 //lanzarErrorLoginIncorrecto();
         //}
 
-        if(!(usuarioEsValido(user) && usuarioEsValido(passwd)) || !gc.loginCorrecto(user,passwd)){
+        if(!(usuarioEsValido(user) && usuarioEsValido(passwd)) || !autenticacion.loginCorrecto(user,passwd)){
             lanzarErrorLoginIncorrecto();
             return;
         }
@@ -79,14 +85,6 @@ public class LoginController extends Controller implements Login {
         String user = campoUsuario.getText();
         String passwd = campoPasswd.getText();
 
-        //codigo ANTERIOR menos legible
-        // if(entradasValidas(user, passwd)){
-        //    if(gc.guardarUsuario(user, passwd)){
-        //        lanzarConfirmacionUsuarioAgregado();
-        //    }else
-        //        lanzarErrorUsuarioNoValido();
-        //}
-
         if(!usuarioEsValido(user)){
             lanzarErrorUsuarioNoValido();
             return;
@@ -97,7 +95,8 @@ public class LoginController extends Controller implements Login {
             return;
         }
 
-        gc.guardarUsuario(user, passwd);
+        autenticacion.registrarUsuario(user, passwd);
+
         lanzarConfirmacionUsuarioAgregado();
     }
 
@@ -108,10 +107,10 @@ public class LoginController extends Controller implements Login {
      */
 
     private  boolean usuarioEsValido(String user){
-        return gc.entradaUsuarioEsValida(user);
+        return gestorContras.entradaUsuarioEsValida(user);
     }
     private boolean contraEsValida(String passwd){
-        return gc.entradaPasswdEsValida(passwd);
+        return gestorContras.entradaPasswdEsValida(passwd);
     }
     //
     //private boolean entradasValidas(String user, String passwd) {
